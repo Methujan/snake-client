@@ -9,27 +9,37 @@ const setupInput = function (conn) {
   stdin.setEncoding("utf8");
   stdin.resume();
 
-  stdin.on("data", handleUserInput);
+  stdin.on("data", key => {handleUserInput(key)});
   return stdin;
 };
 
+let movefunc;
 const handleUserInput = function(key) {
   // your code here
+  const constantMovement = function(key) {movefunc = setInterval(() => {
+    connection.write(key);
+  }, 100);
+}
   if((key === 'w')){
-    connection.write("Move: up");
-    setInterval(() => {
-      
-    }, 100);
+    
+    clearInterval(movefunc);
+    constantMovement("Move: up");
   }
-  
+
   if((key === 'a')){
-    connection.write("Move: left");
+    clearInterval(movefunc);
+    constantMovement("Move: left");
   }
+
   if((key === 's')){
-    connection.write("Move: down");
+    clearInterval(movefunc);
+    constantMovement("Move: down");
+
   }
   if((key === 'd')){
-    connection.write("Move: right");
+    clearInterval(movefunc);
+    constantMovement("Move: right");
+
   }
   if((key === 'q')){
     connection.write("Say: No no noo noooo");
